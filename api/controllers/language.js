@@ -7,7 +7,7 @@ function detect(req, res) {
   console.log(language);
 
   // only add language tags for japanese, chinese, and korean
-  if (["japanese, chinese, korean"].includes(language)) {
+  if (["japanese", "chinese", "korean"].includes(language)) {
     zendeskService.addLanguageTag(req.body.ticketId, req.body.tags, language);
   }
 
