@@ -2,7 +2,7 @@
   "name": "zendesk-language-detector-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "node -r dotenv/config server.js"
   },
@@ -10,9 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "express": "^4.17.1",
-    "iso-639-1": "^2.1.9",
-    "langdetect": "^0.2.1"
+    "cld": "^2.7.0",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"

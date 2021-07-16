@@ -1,17 +1,15 @@
 const languageService = require("../../services/language");
 const zendeskService = require("../../services/zendesk");
 
-function detect(req, res) {
+async function detect(req, res) {
   console.log(req.body);
-  const language = languageService.detect(req.body.firstComment);
-  console.log(language);
+  const languages = await languageService.detect(req.body.firstComment);
 
-  // only add language tags for japanese, chinese, and korean
-  if (["japanese", "chinese", "korean"].includes(language)) {
-    zendeskService.addLanguageTag(req.body.ticketId, req.body.tags, language);
+  for (const language of languages) {
+    await zendeskService.addLanguageTag(req.body.ticketId, language);
   }
 
-  res.json({ ticketId: req.body.ticketId, language: language });
+  res.json({ ticketId: req.body.ticketId, languages: languages });
 }
 
 module.exports = {

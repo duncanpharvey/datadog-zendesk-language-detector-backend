@@ -1,11 +1,14 @@
-const langdetect = require('langdetect');
-const ISO6391 = require('iso-639-1');
+const cld = require('cld');
 
-function detect(text) {
-    console.log(langdetect.detectOne(text));
-    const langCode = langdetect.detectOne(text).split('-')[0]; // handles cases with subtags like zh-cn and zh-tw
-    const langName = ISO6391.getName(langCode);
-    return langName ? langName.toLowerCase() : "undefined";
+function filter(languages) {
+    return languages.filter(language => process.env.LANGUAGES_TO_TAG.split(',').includes(language));
+}
+
+async function detect(text) {
+    const result = await cld.detect(text);
+    const languages = result.languages.map(lang => lang.name.toLowerCase()); // save all languages for now, TODO: use probability to filter further?
+    console.log(languages);
+    return filter(languages);
 }
 
 module.exports = {
