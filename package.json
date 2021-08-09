@@ -1,5 +1,5 @@
 {
-  "name": "zendesk-language-detector-backend",
+  "name": "zendesk-language-detector",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
