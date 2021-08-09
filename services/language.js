@@ -17,15 +17,16 @@ async function detect(text) {
     return filter(languages);
 }
 
-async function addLanguageTag(ticketId, language) {
+async function addLanguageTag(ticketId, languages) {
     if (!ticketId) {
         logger.warn("unable to update Zendesk ticket with language tag, missing ticket id");
-        return;
+        return false;
     }
-    if (!language) {
+    if (!languages || languages.length == 0) {
         logger.warn("unable to update Zendesk ticket with language tag, missing language", { ticketId: ticketId });
-        return;
+        return false;
     }
+    const language_tags = languages.map(language => `${language}_language`);
     await axios({
         method: "put",
         url: `https://${process.env.ZENDESK_SUBDOMAIN}.zendesk.com/api/v2/tickets/update_many.json?ids=${ticketId}`,
@@ -35,10 +36,11 @@ async function addLanguageTag(ticketId, language) {
         },
         data: {
             "ticket": {
-                "additional_tags": `${language}_language`
+                "additional_tags": language_tags
             }
         }
     });
+    return true;
 }
 
 module.exports = {
