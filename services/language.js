@@ -2,7 +2,7 @@ const cld = require('cld');
 const axios = require('axios');
 
 function filter(languages) {
-    return languages.filter(language => process.env.LANGUAGES_TO_TAG.split(',').includes(language));
+    return languages.map(language => language == "chineset" ? "chinese" : language).filter(language => process.env.LANGUAGES_TO_TAG.split(',').includes(language));
 }
 
 async function detect(text) {
