@@ -1,6 +1,5 @@
 const cld = require('cld');
 const axios = require('axios');
-const logger = require('./logger');
 
 function filter(languages) {
     return languages.filter(language => process.env.LANGUAGES_TO_TAG.split(',').includes(language));
@@ -8,22 +7,22 @@ function filter(languages) {
 
 async function detect(text) {
     if (!text) {
-        logger.warn("unable to detect language, missing text");
+        console.log("unable to detect language, missing text");
         return [];
     }
     const result = await cld.detect(text);
     const languages = result.languages.map(lang => lang.name.toLowerCase()); // save all languages for now, could use probability to filter further
-    logger.info(`languages detected: ${languages}`, { languages: languages });
+    console.log(JSON.stringify({ message: `languages detected: ${languages}`, languages: languages }));
     return filter(languages);
 }
 
 async function addLanguageTag(ticketId, languages) {
     if (!ticketId) {
-        logger.warn("unable to update Zendesk ticket with language tag, missing ticket id");
+        console.log("unable to update Zendesk ticket with language tag, missing ticket id");
         return false;
     }
     if (!languages || languages.length == 0) {
-        logger.warn("unable to update Zendesk ticket with language tag, missing language", { ticketId: ticketId });
+        console.log(JSON.stringify({ message: "unable to update Zendesk ticket with language tag, missing language", ticketId: ticketId }));
         return false;
     }
     const language_tags = languages.map(language => `${language}_language`);
