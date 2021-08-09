@@ -11,7 +11,8 @@
   "dependencies": {
     "axios": "^0.21.1",
     "cld": "^2.7.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"
