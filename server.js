@@ -1,7 +1,12 @@
 const express = require("express");
+const basicAuth = require('express-basic-auth');
 
 const app = express();
 
+users = {}
+users[process.env.USERNAME] = process.env.PASSWORD;
+
+app.use(basicAuth({ users: users }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
