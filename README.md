@@ -50,7 +50,7 @@ run `sudo docker-compose up --build`
 
 ### Zendesk
 
-Create a webhook with which makes a `POST` request to the application running on the EC2 instance `<ec2.ip>/languages`:
+Create a webhook with which makes a `POST` request to the application running on the EC2 instance `http://<ec2.ip>/languages`:
 
 <img src="https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/p9ukzLKN/a7b24720-b732-4463-8a31-3c31f07d00c1.jpg?source=viewer&v=fc2d38c384c9284d6680e897def61d92"
 alt="Language Detection Webhook" width="500"/>
