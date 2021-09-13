@@ -46,7 +46,7 @@ Create `.env` in the this project's root directory and set the `DD_API_KEY`:
 DD_API_KEY=<redacted>
 ```
 
-run `sudo docker-compose up --build`
+run `sudo docker-compose up -d --build`
 
 ### Zendesk
 
