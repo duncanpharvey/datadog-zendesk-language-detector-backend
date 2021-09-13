@@ -7,7 +7,7 @@ services:
       context: .
     container_name: zendesk-language-detector
     dns: 8.8.8.8
-    env_file: ~/config/zendesk-language-detector.env
+    env_file: ./zendesk-language-detector.env
     ports:
       - "80:8080"
   datadog:
