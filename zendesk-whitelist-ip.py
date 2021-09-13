@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-dotenv_path = Path("./config/zendesk-whitelist-ip.env")
+dotenv_path = Path("./zendesk-whitelist-ip.env")
 load_dotenv(dotenv_path=dotenv_path)
 
 client = boto3.client('ec2')
