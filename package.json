@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "node -r dotenv/config server.js"
+    "dev": "node -r dotenv/config server.js dotenv_config_path=./config/zendesk-language-detector.env"
   },
   "author": "",
   "license": "ISC",
