@@ -6,7 +6,15 @@ const app = express();
 users = {}
 users[process.env.USERNAME] = process.env.PASSWORD;
 
-app.use(basicAuth({ users: users }));
+app.use(basicAuth({
+  users: users,
+  unauthorizedResponse: () => {
+    message = "invalid credentials";
+    console.log(message);
+    return { message: message };
+  }
+}));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
