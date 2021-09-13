@@ -1,5 +1,6 @@
 const express = require("express");
 const basicAuth = require('express-basic-auth');
+const logger = require("./services/logger");
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(basicAuth({
   users: users,
   unauthorizedResponse: () => {
     message = "invalid credentials";
-    console.log(message);
+    logger.log(message);
     return { message: message };
   }
 }));

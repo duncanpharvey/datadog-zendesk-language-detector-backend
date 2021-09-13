@@ -1,45 +1,45 @@
 const cld = require('cld');
 const axios = require('axios');
+const logger = require("./logger");
 
 function filter(languages) {
     return languages.map(language => language == "chineset" ? "chinese" : language).filter(language => process.env.LANGUAGES_TO_TAG.split(',').includes(language));
 }
 
-async function detect(text) {
+async function detect(ticketId, text) {
     if (!text) {
-        console.log("unable to detect language, missing text");
+        logger.log(`unable to detect language for zendesk ticket ${ticketId}, missing text`);
         return [];
     }
     const result = await cld.detect(text);
+    logger.log(`languages detected for zendesk ticket ${ticketId}: ${JSON.stringify(result.languages)}`);
     const languages = result.languages.map(lang => lang.name.toLowerCase()); // save all languages for now, could use probability to filter further
-    console.log(JSON.stringify({ message: `languages detected: ${languages}`, languages: languages }));
     return filter(languages);
 }
 
 async function addLanguageTag(ticketId, languages) {
     if (!ticketId) {
-        console.log("unable to update Zendesk ticket with language tag, missing ticket id");
+        logger.log("unable to update zendesk ticket with language tag, missing ticket id");
         return false;
     }
     if (!languages || languages.length == 0) {
-        console.log(JSON.stringify({ message: "unable to update Zendesk ticket with language tag, missing language", ticketId: ticketId }));
+        logger.log(`unable to update zendesk ticket ${ticketId} with language tag, missing language`);
         return false;
     }
     const language_tags = languages.map(language => `${language}_language`);
+    var success;
     await axios({
         method: "put",
-        url: `https://${process.env.ZENDESK_SUBDOMAIN}.zendesk.com/api/v2/tickets/update_many.json?ids=${ticketId}`,
+        url: `https://${process.env.ZENDESK_SUBDOMAIN}.zendesk.com/api/v2/tickets/${ticketId}/tags`,
         auth: {
             username: process.env.ZENDESK_USERNAME,
             password: process.env.ZENDESK_API_TOKEN,
         },
         data: {
-            "ticket": {
-                "additional_tags": language_tags
-            }
+            "tags": language_tags
         }
-    });
-    return true;
+    }).then(() => { success = true; }).catch(() => { success = false; });
+    return success;
 }
 
 module.exports = {
