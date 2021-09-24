@@ -1,24 +1,10 @@
-# ---------------- Automated Setup on EC2 ----------------
+aws ecr get-login-password \
+    --region us-east-1 \
+| docker login \
+    --username AWS \
+    --password-stdin 601427279990.dkr.ecr.us-east-1.amazonaws.com
 
-# install steps from https://docs.docker.com/engine/install/ubuntu/
 
-# Docker
-sudo apt-get update
-sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt-get update
-sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose
-
-# Git
-sudo apt-get install git
+docker build . -t zendesk-language-detector
+docker tag zendesk-language-detector:latest 601427279990.dkr.ecr.us-east-1.amazonaws.com/zendesk-language-detector:latest
+docker push 601427279990.dkr.ecr.us-east-1.amazonaws.com/zendesk-language-detector:latest

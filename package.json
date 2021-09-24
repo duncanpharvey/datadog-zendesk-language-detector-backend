@@ -2,20 +2,14 @@
   "name": "zendesk-language-detector",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "node -r dotenv/config server.js dotenv_config_path=./config/zendesk-language-detector.env"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "cld": "^2.7.0",
-    "console-stamp": "^3.0.3",
-    "express": "^4.17.1",
-    "express-basic-auth": "^1.2.0"
-  },
-  "devDependencies": {
-    "dotenv": "^10.0.0"
+    "cld": "^2.7.0"
   }
 }
